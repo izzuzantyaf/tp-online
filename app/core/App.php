@@ -3,7 +3,7 @@
 class App
 {
     // default controller
-    protected $controller = 'Home';
+    protected $controller = 'Praktikan';
     // default method
     protected $method = 'index';
     protected $params = [];
@@ -12,6 +12,22 @@ class App
     {
         // catch controller, method, and params from URL
         $url = $this->parseURL();
+
+        // jika belum ada user yang login tidak boleh masuk ke beranda
+        if (empty($_SESSION["user_logged"])) {
+            if ($url[0] === "asisten" || $url[0] === "admin") {
+                # code...
+            } else {
+                $url[0] = $this->controller;
+            }
+            $url[1] = "login";
+        }
+        // jika sudah ada user yang login tidak boleh masuk halaman login
+        else if (!empty($_SESSION["user_logged"]) && isset($url[1])) {
+            if ((($url[0] === "praktikan" || $url[0] === "asisten" || $url[0] === "admin")) && $url[1] === "login") {
+                $url[1] = $this->method;
+            }
+        }
 
         // if controller exists
         if (file_exists('app/controllers/' . ucfirst($url[0]) . '.php')) {
@@ -22,13 +38,9 @@ class App
         require_once 'app/controllers/' . $this->controller . '.php';
         $this->controller = new $this->controller;
 
-
         if (isset($url[1])) {
             // if method exists
             if (method_exists($this->controller, $url[1])) {
-                if ($this->controller == "home" && ($url[1] == "asisten" || $url[1] == "admin")) {
-                    # code...
-                }
                 $this->method = $url[1];
                 unset($url[1]);
             }
