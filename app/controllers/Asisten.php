@@ -2,7 +2,7 @@
 
 class Asisten extends Controller
 {
-    protected $data;
+    private $data;
 
     function __construct()
     {
@@ -11,11 +11,19 @@ class Asisten extends Controller
             "sidebar_menu" => [
                 (object) [
                     "link" => BASEURL . "/asisten/koreksi",
-                    "icon" => "fas fa-pencil-alt",
+                    "icon" => "fas fa-check-double",
                     "label" => "Koreksi"
                 ]
             ]
         ];
+
+        if (isset($_SESSION["user_logged"])) {
+            $this->data["user_logged_info"] = (object) [
+                "peran" => ucfirst($_SESSION["user_logged"]->role),
+                "nama" => $_SESSION["user_logged"]->nama,
+                "kode" => $_SESSION["user_logged"]->kode
+            ];
+        }
     }
 
     public function index()
@@ -25,7 +33,7 @@ class Asisten extends Controller
 
     public function login()
     {
-        $prepared_data = [
+        $data = [
             "title" => "Login Asisten",
             "req_body_class" => "login-page",
             "username_placeholder" => "Kode Asisten",
@@ -36,11 +44,11 @@ class Asisten extends Controller
             "submit_button_name" => "asisten_login_btn"
         ];
 
-        foreach ($prepared_data as $key => $value) {
-            $this->push($key, $value);
+        foreach ($data as $key => $value) {
+            $this->data[$key] = $value;
         }
 
-        if (isset($_POST[$prepared_data["submit_button_name"]])) {
+        if (isset($_POST[$data["submit_button_name"]])) {
             if ($this->model("Asisten_model")->login()) {
                 header("Location: " . BASEURL . "/asisten");
             } else {
@@ -62,29 +70,39 @@ class Asisten extends Controller
 
     public function ubah_password()
     {
+        $data = [
+            "title" => "Ubah Password",
+            "old_password_name" => "password_lama_asisten",
+            "new_password_name" => "password_baru_asisten",
+            "new_password_confirm_name" => "konfirmasi_password_baru_asisten",
+            "submit_button_name" => "asisten_ubah_password_btn"
+        ];
+
+        foreach ($data as $key => $value) {
+            $this->data[$key] = $value;
+        }
+
+        if (isset($_POST[$data["submit_button_name"]])) {
+            $this->model("Asisten_model")->ubah_password($_POST[$data["old_password_name"]], $_POST[$data["new_password_name"]], $_POST[$data["new_password_confirm_name"]]);
+        }
+
+        $this->view("templates/header", $this->data);
+        $this->view("templates/navbar");
+        $this->view("templates/sidebar", $this->data);
+        $this->view(__FUNCTION__ . "/index", $this->data);
+        $this->view("templates/footer");
+        $this->view("templates/js");
+        $this->view("templates/close_tag");
     }
 
     public function koreksi()
     {
-        $prepared_data = [
-            "title" => "Asisten",
-            "req_body_class" => "sidebar-mini",
-            "user_logged_info" => (object) [
-                "peran" => "Asisten",
-                "nama" => $_SESSION["user_logged"][0],
-                "kode" => $_SESSION["user_logged"][1]
-            ],
-            "sidebar_menu" => [
-                (object) [
-                    "link" => BASEURL . "/admin/koreksi",
-                    "icon" => "fas fa-check-double",
-                    "label" => "Koreksi TP"
-                ]
-            ]
+        $data = [
+            "title" => "Asisten"
         ];
 
-        foreach ($prepared_data as $key => $value) {
-            $this->push($key, $value);
+        foreach ($data as $key => $value) {
+            $this->data[$key] = $value;
         }
 
         $this->view("templates/header", $this->data);

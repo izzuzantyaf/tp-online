@@ -23,9 +23,20 @@ class App
             $url[1] = "login";
         }
         // jika sudah ada user yang login tidak boleh masuk halaman login
-        else if (!empty($_SESSION["user_logged"]) && isset($url[1])) {
-            if ((($url[0] === "praktikan" || $url[0] === "asisten" || $url[0] === "admin")) && $url[1] === "login") {
-                $url[1] = $this->method;
+        else {
+            if (isset($url[0])) {
+                if ((($url[0] === "praktikan" || $url[0] === "asisten" || $url[0] === "admin"))) {
+                    $url[0] = $_SESSION["user_logged"]->role;
+                    if (isset($url[1])) {
+                        if ($url[1] === "login") {
+                            $url[1] = $this->method;
+                        }
+                    }
+                } else {
+                    $url[0] = $_SESSION["user_logged"]->role;
+                }
+            } else {
+                $url[0] = $_SESSION["user_logged"]->role;
             }
         }
 

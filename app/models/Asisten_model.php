@@ -23,6 +23,22 @@ class Asisten_model
         ];
     }
 
+    public function ubah_password($old_password, $new_password, $new_password_confirm)
+    {
+        $user_logged = $_SESSION["user_logged"];
+        $asisten_from_db = $this->dbh->get("SELECT * FROM asisten WHERE kode='$user_logged->kode'");
+        if ($old_password === $asisten_from_db->password) {
+            if ($new_password === $new_password_confirm) {
+                $this->dbh->query("UPDATE asisten SET password='$new_password' WHERE kode='$user_logged->kode'");
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     public function login()
     {
         // ambil username dan password user yang login
@@ -32,7 +48,11 @@ class Asisten_model
         // validasi
         if ($asisten_login->password === $asisten_from_db->password) {
             // set session
-            $_SESSION["user_logged"] = [$asisten_from_db->nama, $asisten_from_db->kode];
+            $_SESSION["user_logged"] = (object) [
+                "nama" => $asisten_from_db->nama,
+                "kode" => $asisten_from_db->kode,
+                "role" => "asisten"
+            ];
             // header("Location: " . BASEURL);
             return true;
         } else {

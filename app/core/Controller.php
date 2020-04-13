@@ -12,9 +12,4 @@ class Controller
         require_once "app/models/$model_name.php";
         return new $model_name;
     }
-
-    public function push($key, $value)
-    {
-        $this->data[$key] = $value;
-    }
 }

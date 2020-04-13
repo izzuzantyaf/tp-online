@@ -2,57 +2,12 @@
 
 class Admin extends Controller
 {
-    public function index()
+    private $data = [];
+
+    public function __construct()
     {
-        $this->upload_soal();
-    }
-
-    public function login()
-    {
-        $data = [
-            "title" => "Login Admin",
-            "req_body_class" => "login-page",
-            "username_placeholder" => "Username",
-            "section_id" => "login_admin",
-            "action_link_params" => "/admin/login",
-            "username_form_name" => "username_admin",
-            "password_form_name" => "password_admin",
-            "submit_button_name" => "admin_login_btn"
-        ];
-
-        if (isset($_POST[$data["submit_button_name"]])) {
-            if ($this->model("Admin_model")->login()) {
-                header("Location: " . BASEURL . "/admin");
-            } else {
-                header("Location: " . BASEURL . "/admin/login");
-            }
-        }
-
-        $this->view("templates/header", $data);
-        $this->view(__FUNCTION__ . "/index", $data);
-        $this->view("templates/js");
-        $this->view("templates/close_tag");
-    }
-
-    public function logout()
-    {
-        $this->model("Admin_model")->logout();
-        header("Location: " . BASEURL . "/admin/login");
-    }
-
-    public function ubah_password()
-    {
-    }
-
-    public function upload_soal()
-    {
-        $data = [
-            "title" => "Admin",
+        $this->data = [
             "req_body_class" => "sidebar-mini",
-            "user_logged_info" => (object) [
-                "peran" => "Admin",
-                "username" => $_SESSION["user_logged"]
-            ],
             "sidebar_menu" => [
                 (object) [
                     "link" => BASEURL . "/admin/upload_tp",
@@ -72,10 +27,116 @@ class Admin extends Controller
             ]
         ];
 
-        $this->view("templates/header", $data);
+        if (isset($_SESSION["user_logged"])) {
+            $this->data["user_logged_info"] = (object) [
+                "peran" => ucfirst($_SESSION["user_logged"]->role),
+                "username" => $_SESSION["user_logged"]->username
+            ];
+        }
+    }
+
+    public function index()
+    {
+        $this->upload_soal();
+    }
+
+    public function login()
+    {
+        $data = [
+            "title" => "Login Admin",
+            "req_body_class" => "login-page",
+            "username_placeholder" => "Username",
+            "section_id" => "login_admin",
+            "action_link_params" => "/admin/login",
+            "username_form_name" => "username_admin",
+            "password_form_name" => "password_admin",
+            "submit_button_name" => "admin_login_btn"
+        ];
+
+        foreach ($data as $key => $value) {
+            $this->data[$key] = $value;
+        }
+
+        if (isset($_POST[$data["submit_button_name"]])) {
+            if ($this->model("Admin_model")->login()) {
+                header("Location: " . BASEURL . "/admin");
+            } else {
+                header("Location: " . BASEURL . "/admin/login");
+            }
+        }
+
+        $this->view("templates/header", $this->data);
+        $this->view(__FUNCTION__ . "/index", $this->data);
+        $this->view("templates/js");
+        $this->view("templates/close_tag");
+    }
+
+    public function logout()
+    {
+        $this->model("Admin_model")->logout();
+        header("Location: " . BASEURL . "/admin/login");
+    }
+
+    public function ubah_password()
+    {
+        $data = [
+            "title" => "Ubah Password",
+            "old_password_name" => "password_lama_admin",
+            "new_password_name" => "password_baru_admin",
+            "new_password_confirm_name" => "konfirmasi_password_baru_admin",
+            "submit_button_name" => "admin_ubah_password_btn"
+        ];
+
+        foreach ($data as $key => $value) {
+            $this->data[$key] = $value;
+        }
+
+        if (isset($_POST[$data["submit_button_name"]])) {
+            $this->model("Admin_model")->ubah_password($_POST[$data["old_password_name"]], $_POST[$data["new_password_name"]], $_POST[$data["new_password_confirm_name"]]);
+        }
+
+        $this->view("templates/header", $this->data);
         $this->view("templates/navbar");
-        $this->view("templates/sidebar", $data);
-        $this->view(__FUNCTION__ . "/index", $data);
+        $this->view("templates/sidebar", $this->data);
+        $this->view(__FUNCTION__ . "/index", $this->data);
+        $this->view("templates/footer");
+        $this->view("templates/js");
+        $this->view("templates/close_tag");
+    }
+
+    public function upload_soal()
+    {
+        $data = [
+            "title" => "Upload Soal"
+        ];
+
+        foreach ($data as $key => $value) {
+            $this->data[$key] = $value;
+        }
+
+        $this->view("templates/header", $this->data);
+        $this->view("templates/navbar");
+        $this->view("templates/sidebar", $this->data);
+        $this->view(__FUNCTION__ . "/index", $this->data);
+        $this->view("templates/footer");
+        $this->view("templates/js");
+        $this->view("templates/close_tag");
+    }
+
+    public function edit_soal()
+    {
+        $data = [
+            "title" => "Edit Soal"
+        ];
+
+        foreach ($data as $key => $value) {
+            $this->data[$key] = $value;
+        }
+
+        $this->view("templates/header", $this->data);
+        $this->view("templates/navbar");
+        $this->view("templates/sidebar", $this->data);
+        $this->view(__FUNCTION__ . "/index", $this->data);
         $this->view("templates/footer");
         $this->view("templates/js");
         $this->view("templates/close_tag");
@@ -83,5 +144,20 @@ class Admin extends Controller
 
     public function atur_deadline()
     {
+        $data = [
+            "title" => "Atur Deadline TP"
+        ];
+
+        foreach ($data as $key => $value) {
+            $this->data[$key] = $value;
+        }
+
+        $this->view("templates/header", $this->data);
+        $this->view("templates/navbar");
+        $this->view("templates/sidebar", $this->data);
+        $this->view(__FUNCTION__ . "/index", $this->data);
+        $this->view("templates/footer");
+        $this->view("templates/js");
+        $this->view("templates/close_tag");
     }
 }

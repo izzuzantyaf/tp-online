@@ -17,8 +17,6 @@ class Praktikan_model
 
     private function get_praktikan_login()
     {
-        // $username = $_POST["nim_praktikan"];
-        // $password = $_POST["password_praktikan"];
         return (object) [
             "username" => $_POST["nim_praktikan"],
             "password" => $_POST["password_praktikan"]
@@ -34,11 +32,15 @@ class Praktikan_model
         // validasi
         if ($praktikan_login->password === $praktikan_from_db->password) {
             // set session
-            $_SESSION["user_logged"] = [$praktikan_from_db->nama, $praktikan_from_db->kelas . " " . $praktikan_from_db->kelompok];
-            // header("Location: " . BASEURL);
+            $_SESSION["user_logged"] = (object) [
+                "nama" => $praktikan_from_db->nama,
+                "nim" => $praktikan_from_db->nim,
+                "kelas" => $praktikan_from_db->kelas,
+                "kelompok" => $praktikan_from_db->kelompok,
+                "role" => "praktikan"
+            ];
             return true;
         } else {
-            // header("Location: " . BASEURL);
             return false;
         }
     }
@@ -47,5 +49,21 @@ class Praktikan_model
     {
         unset($_SESSION["user_logged"]);
         return true;
+    }
+
+    public function ubah_password($old_password, $new_password, $new_password_confirm)
+    {
+        $user_logged = $_SESSION["user_logged"];
+        $praktikan_from_db = $this->dbh->get("SELECT * FROM praktikan WHERE nim='$user_logged->nim'");
+        if ($old_password === $praktikan_from_db->password) {
+            if ($new_password === $new_password_confirm) {
+                $this->dbh->query("UPDATE praktikan SET password='$new_password' WHERE nim='$user_logged->nim'");
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 }

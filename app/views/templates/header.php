@@ -7,6 +7,10 @@
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="<?= BASEURL; ?>/plugins/fontawesome-free/css/all.min.css">
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="<?= BASEURL; ?>/plugins/daterangepicker/daterangepicker.css">
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link rel="stylesheet" href="<?= BASEURL; ?>/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="<?= BASEURL; ?>/css/adminlte.min.css">
     <!-- Google Font: Source Sans Pro -->
@@ -19,5 +23,5 @@
     <title><?= $data["title"]; ?></title>
 </head>
 
-<body class="hold-transition <?= $data["req_body_class"]; ?>">
+<body class="hold-transition <?= $data["req_body_class"]; ?> layout-fixed layout-navbar-fixed">
     <div class="wrapper">

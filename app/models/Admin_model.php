@@ -23,6 +23,23 @@ class Admin_model
         ];
     }
 
+    public function ubah_password($old_password, $new_password, $new_password_confirm)
+    {
+        $user_logged = $_SESSION["user_logged"];
+        $admin_from_db = $this->dbh->get("SELECT * FROM admin WHERE username='$user_logged->username'");
+
+        if ($old_password === $admin_from_db->password) {
+            if ($new_password === $new_password_confirm) {
+                $this->dbh->query("UPDATE admin SET password='$new_password' WHERE username='$user_logged->username'");
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     public function login()
     {
         // ambil username dan password user yang login
@@ -32,7 +49,10 @@ class Admin_model
         // validasi
         if ($admin_login->password === $admin_from_db->password) {
             // set session
-            $_SESSION["user_logged"] = $admin_login->username;
+            $_SESSION["user_logged"] = (object) [
+                "username" => $admin_from_db->username,
+                "role" => "admin"
+            ];
             return true;
         } else {
             return false;

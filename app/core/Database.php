@@ -4,7 +4,6 @@ class Database
 {
     private
         $conn,
-        $query,
         $server_name,
         $host,
         $username,

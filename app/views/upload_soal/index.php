@@ -11,7 +11,6 @@
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
@@ -38,21 +37,30 @@
                 </select>
             </div>
 
-            <div class="row">
-                <div class="col-sm-6">
-                    <!-- textarea -->
-                    <div class="form-group">
-                        <label>Soal</label>
-                        <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label>Kunci Jawaban</label>
-                        <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
-                    </div>
-                </div>
+            <div class="form-group">
+                <label>Jumlah soal</label>
+                <select class="form-control" id="jumlah_soal">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                </select>
             </div>
+
+            <div class="row" id="input_soal">
+            </div>
+
+            <button type="submit" id="upload_soal_submit_btn" class="btn btn-block btn-primary">Submit</button>
 
         </div><!-- /.container-fluid -->
     </div>

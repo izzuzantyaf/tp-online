@@ -13,9 +13,22 @@ class Praktikan extends Controller
                     "link" => BASEURL . "/praktikan/kerjakan_soal",
                     "icon" => "fas fa-pencil-alt",
                     "label" => "Kerjakan TP"
+                ],
+                (object) [
+                    "link" => BASEURL . "/praktikan/lihat_nilai",
+                    "icon" => "fas fa-medal",
+                    "label" => "Nilai TP"
                 ]
             ]
         ];
+
+        if (isset($_SESSION["user_logged"])) {
+            $this->data["user_logged_info"] = (object) [
+                "peran" => ucfirst($_SESSION["user_logged"]->role),
+                "nama" => $_SESSION["user_logged"]->nama,
+                "kelas_kelompok" => $_SESSION["user_logged"]->kelas . " " . $_SESSION["user_logged"]->kelompok
+            ];
+        }
     }
 
     public function index()
@@ -25,7 +38,7 @@ class Praktikan extends Controller
 
     public function login()
     {
-        $prepared_data = [
+        $data = [
             "title" => "Login Praktikan",
             "req_body_class" => "login-page",
             "username_placeholder" => "NIM",
@@ -36,11 +49,11 @@ class Praktikan extends Controller
             "submit_button_name" => "praktikan_login_btn"
         ];
 
-        foreach ($prepared_data as $key => $value) {
-            $this->push($key, $value);
+        foreach ($data as $key => $value) {
+            $this->data[$key] = $value;
         }
 
-        if (isset($_POST["praktikan_login_btn"])) {
+        if (isset($_POST[$data["submit_button_name"]])) {
             if ($this->model("Praktikan_model")->login()) {
                 header("Location: " . BASEURL . "/praktikan");
             } else {
@@ -62,27 +75,45 @@ class Praktikan extends Controller
 
     public function ubah_password()
     {
-    }
-
-    public function kerjakan_soal()
-    {
-        $prepared_data = [
-            "title" => "Tugas Pendahuluan Praktikum Fisika Dasar",
-            "user_logged_info" => (object) [
-                "peran" => "Praktikan",
-                "nama" => $_SESSION["user_logged"][0],
-                "kelas_kelompok" => $_SESSION["user_logged"][1]
-            ]
+        $data = [
+            "title" => "Ubah Password",
+            "old_password_name" => "password_lama_praktikan",
+            "new_password_name" => "password_baru_praktikan",
+            "new_password_confirm_name" => "konfirmasi_password_baru_praktikan",
+            "submit_button_name" => "praktikan_ubah_password_btn"
         ];
 
-        foreach ($prepared_data as $key => $value) {
-            $this->push($key, $value);
+        foreach ($data as $key => $value) {
+            $this->data[$key] = $value;
+        }
+
+        if (isset($_POST[$data["submit_button_name"]])) {
+            $this->model("Praktikan_model")->ubah_password($_POST[$data["old_password_name"]], $_POST[$data["new_password_name"]], $_POST[$data["new_password_confirm_name"]]);
         }
 
         $this->view("templates/header", $this->data);
         $this->view("templates/navbar");
         $this->view("templates/sidebar", $this->data);
-        $this->view("home/index", $this->data);
+        $this->view(__FUNCTION__ . "/index", $this->data);
+        $this->view("templates/footer");
+        $this->view("templates/js");
+        $this->view("templates/close_tag");
+    }
+
+    public function kerjakan_soal()
+    {
+        $data = [
+            "title" => "Tugas Pendahuluan Praktikum Fisika Dasar"
+        ];
+
+        foreach ($data as $key => $value) {
+            $this->data[$key] = $value;
+        }
+
+        $this->view("templates/header", $this->data);
+        $this->view("templates/navbar");
+        $this->view("templates/sidebar", $this->data);
+        $this->view(__FUNCTION__ . "/index", $this->data);
         $this->view("templates/footer");
         $this->view("templates/js");
         $this->view("templates/close_tag");
@@ -90,5 +121,20 @@ class Praktikan extends Controller
 
     public function lihat_nilai()
     {
+        $data = [
+            "title" => "Nilai TP"
+        ];
+
+        foreach ($data as $key => $value) {
+            $this->data[$key] = $value;
+        }
+
+        $this->view("templates/header", $this->data);
+        $this->view("templates/navbar");
+        $this->view("templates/sidebar", $this->data);
+        $this->view(__FUNCTION__ . "/index", $this->data);
+        $this->view("templates/footer");
+        $this->view("templates/js");
+        $this->view("templates/close_tag");
     }
 }
