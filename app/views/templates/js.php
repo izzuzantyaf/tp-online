@@ -11,5 +11,6 @@
 <script src="<?= BASEURL; ?>/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 <script src="<?= BASEURL; ?>/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 <script src="<?= BASEURL; ?>/plugins/daterangepicker/daterangepicker.js"></script>
+<script src="<?= BASEURL; ?>/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <script src="<?= BASEURL; ?>/js/adminlte.min.js"></script>
 <script src="<?= BASEURL; ?>/js/script.js"></script>

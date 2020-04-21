@@ -107,12 +107,18 @@ class Admin extends Controller
     public function upload_soal()
     {
         $data = [
-            "title" => "Upload Soal"
+            "title" => "Upload Soal",
+            "submit_btn_name" => "upload_soal_submit_btn"
         ];
 
         foreach ($data as $key => $value) {
             $this->data[$key] = $value;
         }
+
+        if (isset($_POST[$data["submit_btn_name"]])) {
+            $this->model("SoalTP_model")->upload($_POST);
+        }
+        // var_dump($_POST);
 
         $this->view("templates/header", $this->data);
         $this->view("templates/navbar");
