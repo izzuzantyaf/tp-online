@@ -9,3 +9,5 @@ switch ($_SERVER["SERVER_NAME"]) {
         define("LOCAL_BASEURL", str_replace("/app/core", "", getcwd()));
         break;
 }
+
+define('VALID_EXT', ['jpg', 'jpeg', 'png']);

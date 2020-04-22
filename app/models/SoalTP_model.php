@@ -12,27 +12,69 @@ class SoalTP_model
         $this->fh = new File_handler;
     }
 
-    public function get_soalTP()
+    public function get_soalTP($query)
     {
+        return $this->dbh->get($query);
     }
 
-    public function upload($array_soal_kunci)
+    public function upload_file($files)
     {
-        $array_soal_kunci = (object) $array_soal_kunci;
-        // upload gambar
-        // ada apa belum?
-        $is_exists = false;
-
-        if (
-            empty($this->dbh->get("SELECT giliran,modul FROM soal_tp WHERE giliran='$array_soal_kunci->giliran_tp' AND modul='$array_soal_kunci->modul'"))
-        ) {
+        // cek ekstensi
+        if ($this->fh->ext_validate($files["name"])) {
+            // upload
+            return $this->fh->upload_file($files, 'soal_tp/' . $_POST['giliran'] . '/' . $_POST['modul']);
         } else {
-            $is_exists = !$is_exists;
+            return false;
+        }
+    }
+
+    public function add_to_db($array_soal_kunci)
+    {
+        $query = "";
+
+        if (empty($this->get_soalTP("SELECT giliran,modul FROM soal_tp WHERE giliran='$array_soal_kunci->giliran' AND modul='$array_soal_kunci->modul'"))) {
+            $query = "INSERT INTO soal_tp (";
+            foreach ($array_soal_kunci as $key => $value) {
+                $query .= "$key, ";
+            }
+            $query = rtrim($query, ', ');
+            $query .= ") VALUES ('" . implode("', '", (array) $array_soal_kunci) . "')";
+        } else {
+            $query = "UPDATE soal_tp SET ";
+            foreach ($array_soal_kunci as $key => $value) {
+                $query .= "$key='$value', ";
+            }
+            $query = rtrim($query, ', ');
+            $query .= " WHERE giliran='$array_soal_kunci->giliran' AND modul='$array_soal_kunci->modul'";
         }
 
-        // kalau belum maka tambahkan
-        // kalau ada maka update
-        // 
+        // var_dump($query);
+        // var_dump($this->dbh->query($query));
+        if ($this->dbh->query($query)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function upload($array_soal_kunci, $files)
+    {
+        // upload semua file
+        foreach ($files as $key => $file) {
+            if ($this->upload_file($file)) {
+                // jika berhasil diupload tambahkan nama file nya ke array yang disiapkan untuk ditulis di database
+                $array_soal_kunci[$key] = $file['name'];
+            }
+        }
+        unset($array_soal_kunci['upload_soal_submit_btn']);
+        $array_soal_kunci = (object) $array_soal_kunci;
+        // var_dump($array_soal_kunci);
+        // tambahkan ke database
+        if ($this->add_to_db($array_soal_kunci)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function update()

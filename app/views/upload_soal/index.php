@@ -19,7 +19,7 @@
 
                 <div class="form-group">
                     <label>Giliran ke berapa</label>
-                    <select class="form-control" name="giliran_tp">
+                    <select class="form-control" name="giliran">
                         <option value="1">TP ke-1</option>
                         <option value="2">TP ke-2</option>
                         <option value="3">TP ke-3</option>
@@ -29,7 +29,7 @@
                 <div class="form-group">
                     <label>Modul</label>
                     <select class="form-control" name="modul">
-                        <option value="glb">GLB/GLBB</option>
+                        <option value="glb">GLB</option>
                         <option value="gmb">GMB</option>
                         <option value="gjb">GJB</option>
                         <option value="rgb">RGB</option>

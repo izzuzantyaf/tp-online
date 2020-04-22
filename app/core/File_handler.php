@@ -22,13 +22,13 @@ class File_handler
 
     public function ext_validate($file_name)
     {
-        // $file_name_exploded = explode(".", $file_name);
-        // $file_ext = end($file_name_exploded);
-        // if (in_array($file_ext, VALID_EXT)) {
-        //     return true;
-        // } else {
-        //     return false;
-        // }
+        $file_name_exploded = explode(".", $file_name);
+        $file_ext = end($file_name_exploded);
+        if (in_array($file_ext, VALID_EXT)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function get_dir($file_name, $what_file)

@@ -116,9 +116,8 @@ class Admin extends Controller
         }
 
         if (isset($_POST[$data["submit_btn_name"]])) {
-            $this->model("SoalTP_model")->upload($_POST);
+            $this->model("SoalTP_model", $data)->upload($_POST, $_FILES);
         }
-        // var_dump($_POST);
 
         $this->view("templates/header", $this->data);
         $this->view("templates/navbar");
@@ -132,7 +131,8 @@ class Admin extends Controller
     public function edit_soal()
     {
         $data = [
-            "title" => "Edit Soal"
+            "title" => "Edit Soal",
+            "submit_btn_name" => "edit_submit_btn"
         ];
 
         foreach ($data as $key => $value) {
@@ -165,5 +165,10 @@ class Admin extends Controller
         $this->view("templates/footer");
         $this->view("templates/js");
         $this->view("templates/close_tag");
+    }
+
+    public function get_soal($giliran, $modul)
+    {
+        echo json_encode($this->model("SoalTP_model")->get_soalTP("SELECT * FROM soal_tp WHERE giliran='$giliran' AND modul='$modul'"));
     }
 }

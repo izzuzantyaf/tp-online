@@ -15,10 +15,12 @@ class App
 
         // jika belum ada user yang login tidak boleh masuk ke beranda
         if (empty($_SESSION["user_logged"])) {
-            if ($url[0] === "asisten" || $url[0] === "admin") {
-                # code...
-            } else {
-                $url[0] = $this->controller;
+            if (isset($url[0])) {
+                if ($url[0] === "asisten" || $url[0] === "admin") {
+                    # code...
+                } else {
+                    $url[0] = $this->controller;
+                }
             }
             $url[1] = "login";
         }
@@ -41,9 +43,11 @@ class App
         }
 
         // if controller exists
-        if (file_exists('app/controllers/' . ucfirst($url[0]) . '.php')) {
-            $this->controller = ucfirst($url[0]);
-            unset($url[0]);
+        if (isset($url[0])) {
+            if (file_exists('app/controllers/' . ucfirst($url[0]) . '.php')) {
+                $this->controller = ucfirst($url[0]);
+                unset($url[0]);
+            }
         }
 
         require_once 'app/controllers/' . $this->controller . '.php';
