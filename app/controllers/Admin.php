@@ -148,6 +148,30 @@ class Admin extends Controller
         $this->view("templates/close_tag");
     }
 
+    public function edit_soal_specific()
+    {
+        $data = [
+            "title" => "Edit Soal",
+            "submit_btn_name" => "edit_submit_btn"
+        ];
+
+        if (!isset($_POST[$data["submit_btn_name"]])) {
+            header("Location: " . BASEURL . "/edit_soal");
+        }
+
+        foreach ($data as $key => $value) {
+            $this->data[$key] = $value;
+        }
+
+        $this->view("templates/header", $this->data);
+        $this->view("templates/navbar");
+        $this->view("templates/sidebar", $this->data);
+        $this->view(__FUNCTION__ . "/index", $this->data);
+        $this->view("templates/footer");
+        $this->view("templates/js");
+        $this->view("templates/close_tag");
+    }
+
     public function atur_deadline()
     {
         $data = [

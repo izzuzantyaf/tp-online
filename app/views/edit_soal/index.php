@@ -11,18 +11,19 @@
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
+
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
 
-            <form action="<?= BASEURL . "/admin/edit_soal" ?>" method="post" enctype="multipart/form-data">
+            <form action="<?= BASEURL . "/admin/edit_soal_specific" ?>" method="post" enctype="multipart/form-data">
 
                 <div class="form-group">
                     <label>Giliran ke berapa</label>
                     <select class="form-control" name="giliran">
-                        <option value="1">TP ke-1</option>
-                        <option value="2">TP ke-2</option>
-                        <option value="3">TP ke-3</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
                     </select>
                 </div>
 
@@ -59,10 +60,10 @@
                     </select>
                 </div> -->
 
-                <div class="row" id="input_soal">
-                </div>
+                <!-- <div class="row" id="input_soal"></div> -->
 
-                <button type="submit" name="<?= $data["submit_btn_name"]; ?>" class="btn btn-block btn-primary" value="true">Submit</button>
+                <button type="submit" name="<?= $data["submit_btn_name"];
+                                            ?>" class="btn btn-primary px-4" value="true">Next</button>
             </form>
 
         </div><!-- /.container-fluid -->

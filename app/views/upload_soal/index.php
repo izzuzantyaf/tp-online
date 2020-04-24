@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0 text-dark">Upload Soal TP</h1>
+                    <h1 class="m-0 text-dark">Soal Tugas Pendahuluan</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -20,9 +20,9 @@
                 <div class="form-group">
                     <label>Giliran ke berapa</label>
                     <select class="form-control" name="giliran">
-                        <option value="1">TP ke-1</option>
-                        <option value="2">TP ke-2</option>
-                        <option value="3">TP ke-3</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
                     </select>
                 </div>
 

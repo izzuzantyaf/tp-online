@@ -77,7 +77,7 @@ class SoalTP_model
         }
     }
 
-    public function update()
+    public function update($pre_edited_questions)
     {
     }
 
