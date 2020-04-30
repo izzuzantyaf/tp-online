@@ -68,20 +68,16 @@ class SoalTP_model
         }
         unset($array_soal_kunci['upload_soal_submit_btn']);
         $array_soal_kunci = (object) $array_soal_kunci;
-        // var_dump($array_soal_kunci);
         // tambahkan ke database
-        if ($this->add_to_db($array_soal_kunci)) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->add_to_db($array_soal_kunci);
     }
 
     public function update($pre_edited_questions)
     {
     }
 
-    public function delete()
+    public function delete($modul, $giliran)
     {
+        $this->dbh->query("DELETE FROM soal_tp WHERE modul='$modul' AND giliran='$giliran'");
     }
 }

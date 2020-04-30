@@ -29,52 +29,30 @@
                         <thead>
                             <tr>
                                 <th style="width: 10px">No</th>
-                                <th>Giliran</th>
                                 <th>Modul</th>
                                 <th style="width: 40px">Nilai</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1.</td>
-                                <td>TP ke-1</td>
-                                <td>
-                                    GLBB
-                                </td>
-                                <td>
-                                    90
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2.</td>
-                                <td>TP ke-1</td>
-                                <td>
-                                    GMB
-                                </td>
-                                <td>
-                                    90
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3.</td>
-                                <td>TP ke-2</td>
-                                <td>
-                                    GJB
-                                </td>
-                                <td>
-                                    90
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4.</td>
-                                <td>TP ke-2</td>
-                                <td>
-                                    RGB
-                                </td>
-                                <td>
-                                    90
-                                </td>
-                            </tr>
+                            <?php
+                            $i = 1;
+                            foreach ($data["table_data"] as $key => $value) {
+                            ?>
+                                <tr>
+                                    <td>
+                                        <?php
+                                        echo $i;
+                                        $i++;
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <?= strtoupper($value->modul); ?>
+                                    </td>
+                                    <td>
+                                        <?= $value->nilai; ?>
+                                    </td>
+                                </tr>
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>

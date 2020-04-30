@@ -22,13 +22,13 @@ class Praktikan extends Controller
             ]
         ];
 
-        if (isset($_SESSION["user_logged"])) {
+        if (isset($_SESSION["user_logged"]))
             $this->data["user_logged_info"] = (object) [
                 "peran" => ucfirst($_SESSION["user_logged"]->role),
+                "nim" => $_SESSION["user_logged"]->nim,
                 "nama" => $_SESSION["user_logged"]->nama,
                 "kelas_kelompok" => $_SESSION["user_logged"]->kelas . " " . $_SESSION["user_logged"]->kelompok
             ];
-        }
     }
 
     public function index()
@@ -103,7 +103,46 @@ class Praktikan extends Controller
     public function kerjakan_soal()
     {
         $data = [
-            "title" => "Tugas Pendahuluan Praktikum Fisika Dasar"
+            "title" => "Tugas Pendahuluan Praktikum Fisika Dasar",
+            "submit_btn_name" => "submit_jawaban_btn"
+        ];
+
+        foreach ($data as $key => $value) {
+            $this->data[$key] = $value;
+        }
+
+        if (isset($_POST[$data["submit_btn_name"]])) {
+            // delete unecessary data
+            unset($_POST[$data["submit_btn_name"]]);
+
+            $prepared_data = [
+                "nama" => $_SESSION["user_logged"]->nama,
+                "nim" => $_SESSION["user_logged"]->nim,
+                "kelompok" => $_SESSION["user_logged"]->kelompok,
+                "kelas" => $_SESSION["user_logged"]->kelas
+            ];
+
+            $prepared_data = array_merge($prepared_data, $_POST);
+            $this->model("TP_model")->submit_jawaban($prepared_data, $_FILES);
+        }
+
+        $this->view("templates/header", $this->data);
+        $this->view("templates/navbar");
+        $this->view("templates/sidebar", $this->data);
+        $this->view(__FUNCTION__ . "/index", $this->data);
+        $this->view("templates/footer");
+        $this->view("templates/js");
+        $this->view("templates/close_tag");
+    }
+
+    public function lihat_nilai()
+    {
+        $user_logged = $this->data["user_logged_info"];
+        $data = [
+            "title" => "Nilai TP",
+            "table_data" => [
+                $this->model("TP_model")->get_TP("SELECT modul,nilai FROM tugas_pendahuluan1 WHERE nim='$user_logged->nim'")
+            ]
         ];
 
         foreach ($data as $key => $value) {
@@ -119,22 +158,8 @@ class Praktikan extends Controller
         $this->view("templates/close_tag");
     }
 
-    public function lihat_nilai()
+    public function get_soal($giliran, $modul)
     {
-        $data = [
-            "title" => "Nilai TP"
-        ];
-
-        foreach ($data as $key => $value) {
-            $this->data[$key] = $value;
-        }
-
-        $this->view("templates/header", $this->data);
-        $this->view("templates/navbar");
-        $this->view("templates/sidebar", $this->data);
-        $this->view(__FUNCTION__ . "/index", $this->data);
-        $this->view("templates/footer");
-        $this->view("templates/js");
-        $this->view("templates/close_tag");
+        echo json_encode($this->model("SoalTP_model")->get_soalTP("SELECT * FROM soal_tp WHERE giliran='$giliran' AND modul='$modul'"));
     }
 }

@@ -1,6 +1,6 @@
 <?php
 switch ($_SERVER["SERVER_NAME"]) {
-    case 'write_your_website_address_here':
+    case 'tponline.epizy.com':
         define("BASEURL", "http://" . $_SERVER["SERVER_NAME"]);
         define("LOCAL_BASEURL", BASEURL);
         break;
@@ -10,4 +10,4 @@ switch ($_SERVER["SERVER_NAME"]) {
         break;
 }
 
-define('VALID_EXT', ['jpg', 'jpeg', 'png']);
+define('VALID_EXT', ['JPG', 'JPEG', 'jpg', 'jpeg', 'png', 'PNG']);

@@ -116,7 +116,7 @@ class Admin extends Controller
         }
 
         if (isset($_POST[$data["submit_btn_name"]])) {
-            $this->model("SoalTP_model", $data)->upload($_POST, $_FILES);
+            $this->model("SoalTP_model")->upload($_POST, $_FILES);
         }
 
         $this->view("templates/header", $this->data);
@@ -134,30 +134,6 @@ class Admin extends Controller
             "title" => "Edit Soal",
             "submit_btn_name" => "edit_submit_btn"
         ];
-
-        foreach ($data as $key => $value) {
-            $this->data[$key] = $value;
-        }
-
-        $this->view("templates/header", $this->data);
-        $this->view("templates/navbar");
-        $this->view("templates/sidebar", $this->data);
-        $this->view(__FUNCTION__ . "/index", $this->data);
-        $this->view("templates/footer");
-        $this->view("templates/js");
-        $this->view("templates/close_tag");
-    }
-
-    public function edit_soal_specific()
-    {
-        $data = [
-            "title" => "Edit Soal",
-            "submit_btn_name" => "edit_submit_btn"
-        ];
-
-        if (!isset($_POST[$data["submit_btn_name"]])) {
-            header("Location: " . BASEURL . "/edit_soal");
-        }
 
         foreach ($data as $key => $value) {
             $this->data[$key] = $value;
@@ -194,5 +170,11 @@ class Admin extends Controller
     public function get_soal($giliran, $modul)
     {
         echo json_encode($this->model("SoalTP_model")->get_soalTP("SELECT * FROM soal_tp WHERE giliran='$giliran' AND modul='$modul'"));
+    }
+
+    public function hapus_soal($modul, $giliran)
+    {
+        $this->model("SoalTP_model")->delete($modul, $giliran);
+        header("Location: " . BASEURL . "/admin");
     }
 }

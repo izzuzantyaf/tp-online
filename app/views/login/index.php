@@ -11,7 +11,7 @@
                 <p class="login-box-msg"><?= $data["title"]; ?></p>
                 <form action="<?= BASEURL . $data["action_link_params"]; ?>" method="post">
                     <div class="input-group mb-3">
-                        <input type="text" name="<?= $data["username_form_name"]; ?>" class="form-control" placeholder="<?= $data["username_placeholder"]; ?>">
+                        <input type="text" required name="<?= $data["username_form_name"]; ?>" class="form-control" placeholder="<?= $data["username_placeholder"]; ?>">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <!-- <i class="fas fa-user-tag"></i> -->
@@ -20,7 +20,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" name="<?= $data["password_form_name"]; ?>" class="form-control" placeholder="Password">
+                        <input type="password" required name="<?= $data["password_form_name"]; ?>" class="form-control" placeholder="Password">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <i class="fas fa-lock"></i>

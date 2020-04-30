@@ -14,7 +14,11 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
-
+            <div class="d-flex justify-content-end">
+                <form action="" method="post" id="hapus_tp">
+                    <button type="submit" class="btn btn-danger" id="delete_soal">Delete</button>
+                </form>
+            </div>
             <form action="<?= BASEURL . "/admin/upload_soal" ?>" method="post" enctype="multipart/form-data">
 
                 <div class="form-group">

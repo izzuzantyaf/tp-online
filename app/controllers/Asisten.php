@@ -98,11 +98,27 @@ class Asisten extends Controller
     public function koreksi()
     {
         $data = [
-            "title" => "Asisten"
+            "title" => "Asisten",
+            "submit_nilai_btn_name" => "submit_nilai"
         ];
 
         foreach ($data as $key => $value) {
             $this->data[$key] = $value;
+        }
+
+        if (isset($_POST[$data["submit_nilai_btn_name"]])) {
+            $nilai = [
+                intval($_POST["nilai1"]),
+                intval($_POST["nilai2"]),
+                intval($_POST["nilai3"]),
+                intval($_POST["nilai4"]),
+                intval($_POST["nilai5"]),
+            ];
+            $jml_nilai = 0;
+            foreach ($nilai as $key => $value) {
+                $jml_nilai += $value;
+            }
+            $this->model("TP_model")->submit_nilai($_POST['giliran'], $jml_nilai, $this->data["user_logged_info"]->kode, $_POST['nim'], $_POST["modul"]);
         }
 
         $this->view("templates/header", $this->data);
@@ -112,5 +128,35 @@ class Asisten extends Controller
         $this->view("templates/footer");
         $this->view("templates/js");
         $this->view("templates/close_tag");
+    }
+
+    public function get_jawaban($giliran, $kelas, $kelompok, $modul, $nim)
+    {
+        $ATURAN_SET = [
+            "A" => [2, 6, 9, 10, 12],
+            "B" => [1, 3, 7, 11, 13],
+            "C" => [4, 5, 8, 10, 12],
+            "D" => [0, 6, 7, 11, 13]
+        ];
+        // get jawaban praktikan
+        $query = "SELECT ";
+        $list_jawaban = $this->model("TP_model")->get_TP("SELECT * FROM tugas_pendahuluan$giliran WHERE nim='$nim' AND kelas='$kelas' AND kelompok='$kelompok' AND modul='$modul'");
+        // get kunci jawaban
+        $set = $list_jawaban->set_soal;
+        $query = "SELECT ";
+        foreach ($ATURAN_SET[$set] as $key => $value) {
+            $query .= "kunci" . ($value + 1) . ",";
+            $query .= "jenis_kunci" . ($value + 1) . ",";
+        }
+        $query = rtrim($query, ",");
+        $query .= " FROM soal_tp WHERE giliran='$giliran' AND modul='$modul'";
+        // echo json_encode($list_jawaban);
+        // echo json_encode($this->model("SoalTP_model")->get_SoalTP($query));
+        echo json_encode(array_merge((array) $list_jawaban, (array) $this->model("SoalTP_model")->get_SoalTP($query)));
+    }
+
+    public function get_praktikan($kelas, $kelompok)
+    {
+        echo json_encode($this->model("Praktikan_model")->get_praktikan("SELECT nama, nim FROM praktikan WHERE kelas='$kelas' AND kelompok='$kelompok'"));
     }
 }

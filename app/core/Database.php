@@ -17,10 +17,10 @@ class Database
         // decide database's config
         switch ($this->server_name) {
             case 'tponline.epizy.com':
-                $this->host = "";
-                $this->username = "";
-                $this->pass = "";
-                $this->db_name = "";
+                $this->host = "sql308.epizy.com";
+                $this->username = "epiz_25582569";
+                $this->pass = "bjshdkZdoXE";
+                $this->db_name = "epiz_25582569_tponline";
                 break;
             default:
                 $this->host = "localhost";

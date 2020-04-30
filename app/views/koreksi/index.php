@@ -15,86 +15,70 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
+            <form action="<?= BASEURL . "/admin/koreksi"; ?>" method="post">
 
-            <div class="form-group">
-                <label>Giliran ke berapa</label>
-                <select class="form-control" id="giliran_tp">
-                    <option value="1">TP ke-1</option>
-                    <option value="2">TP ke-2</option>
-                    <option value="3">TP ke-3</option>
-                </select>
-            </div>
+                <div class="form-group">
+                    <label>Giliran ke berapa</label>
+                    <select class="form-control" id="giliran" name="giliran">
+                        <option>Pilih giliran</option>
+                        <option value="1">TP ke-1</option>
+                        <option value="2">TP ke-2</option>
+                        <option value="3">TP ke-3</option>
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label>Kelas dan kelompok</label>
-                <select class="form-control" id="kelas_kelompok">
-                    <option value="TK-42-03 E">TK-42-03 E</option>
-                </select>
-            </div>
+                <div class="form-group">
+                    <label>Kelas</label>
+                    <select class="form-control" id="kelas" name="kelas">
+                        <option>Pilih kelas</option>
+                        <option value="TK-42-01">TK-42-01</option>
+                        <option value="TK-42-02">TK-42-02</option>
+                        <option value="TK-42-03">TK-42-03</option>
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label>Modul</label>
-                <select class="form-control" id="modul">
-                    <option value="glb">GLB/GLBB</option>
-                    <option value="gmb">GMB</option>
-                    <option value="gjb">GJB</option>
-                    <option value="rgb">RGB</option>
-                    <option value="im">IM</option>
-                    <option value="pbl">PBL</option>
-                    <option value="sgh">SGH</option>
-                </select>
-            </div>
+                <div class="form-group">
+                    <label>Kelompok</label>
+                    <select class="form-control" id="kelompok" name="kelompok">
+                        <option>Pilih kelompok</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                        <option value="F">F</option>
+                        <option value="G">G</option>
+                        <option value="H">H</option>
+                        <option value="I">I</option>
+                        <option value="J">J</option>
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label>Nama Praktikan</label>
-                <select class="form-control" id="nama_praktikan">
-                    <option value="Izzu Zantya Fawwas">Izzu Zantya Fawwas</option>
-                </select>
-            </div>
+                <div class="form-group">
+                    <label>Modul</label>
+                    <select class="form-control" id="modul" name="modul">
+                        <option>Pilih modul</option>
+                        <option value="glb">GLB/GLBB</option>
+                        <option value="gmb">GMB</option>
+                        <option value="gjb">GJB</option>
+                        <option value="rgb">RGB</option>
+                        <option value="im">IM</option>
+                        <option value="pbl">PBL</option>
+                        <option value="sgh">SGH</option>
+                    </select>
+                </div>
 
-            <div class="row" id="input_jawaban">
-                <div class="col-sm-5">
-                    <label>Jawaban no 1</label>
-                    <textarea id="soal${i}" class="form-control" rows="3" placeholder="Enter ...">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repudiandae, fuga consequuntur! Provident consequuntur, quaerat qui placeat et totam voluptates quae fugiat consectetur cumque dolore esse? Perspiciatis illum eaque ipsam deserunt!
-                    </textarea>
+                <div class="form-group">
+                    <label>Nama Praktikan</label>
+                    <select class="form-control" id="nim" name="nim">
+                    </select>
                 </div>
-                <div class="col-sm-5">
-                    <div class="form-group">
-                        <label>Kunci jawaban no 1</label>
-                        <textarea id="kunci${i}" class="form-control" rows="3" placeholder="Enter ...">
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt fugit et vitae odio ut unde, suscipit dicta laudantium aspernatur ipsam dignissimos consequatur cupiditate dolor quaerat fugiat eos explicabo architecto deserunt?
-                        </textarea>
-                    </div>
-                </div>
-                <div class="col-sm-2">
-                    <div class="form-group">
-                        <label>Nilai no 1</label>
-                        <textarea id="kunci${i}" class="form-control" rows="3" placeholder="Enter ..."></textarea>
-                    </div>
-                </div>
-                <div class="col-sm-5">
-                    <label>Jawaban no 2</label>
-                    <textarea id="soal${i}" class="form-control" rows="3" placeholder="Enter ...">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repudiandae, fuga consequuntur! Provident consequuntur, quaerat qui placeat et totam voluptates quae fugiat consectetur cumque dolore esse? Perspiciatis illum eaque ipsam deserunt!
-                    </textarea>
-                </div>
-                <div class="col-sm-5">
-                    <div class="form-group">
-                        <label>Kunci jawaban no 2</label>
-                        <textarea id="kunci${i}" class="form-control" rows="3" placeholder="Enter ...">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt fugit et vitae odio ut unde, suscipit dicta laudantium aspernatur ipsam dignissimos consequatur cupiditate dolor quaerat fugiat eos explicabo architecto deserunt?
-                        </textarea>
-                    </div>
-                </div>
-                <div class="col-sm-2">
-                    <div class="form-group">
-                        <label>Nilai no 2</label>
-                        <textarea id="kunci${i}" class="form-control" rows="3" placeholder="Enter ..."></textarea>
-                    </div>
-                </div>
-            </div>
 
+                <div class="row" id="area_koreksi">
+                </div>
+
+                <button type="submit" name="<?= $data["submit_nilai_btn_name"] ?>" class="btn btn-block btn-primary mt-3" value="true">Submit Nilai</button>
+
+            </form>
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
